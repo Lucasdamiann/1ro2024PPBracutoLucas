@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            margin: 1px;
+            padding: 0px;
+            background: rgb(255, 255, 255);
+        }
+
+        #grid-container {
+            background-color: #3dc1f5;
+            padding: 2px;
+            text-align: center;
+        }
+
+        tr {
+            background-color: #f4f2f2;
+            padding: 1px;
+            text-align: center;
+            border-style: double;
+            border-color: rgb(135, 133, 133);
+        }
+
+        td {
+            background: rgb(255, 255, 255);
+        }
+
+        #contenedorGrilla {
+            border-style: solid;
+            width: min-content;
+            padding-right: 50px;
+        }
+
+        #contenedorForm {
+            border-style: solid;
+            width: fit-content;
+            padding-right: 50px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="contenedorGrilla">
+        <h3 id="textoPrincipal">Form Listado</label><br></h3>
+        <label for="filtrarPor">Filtrar Por:</label>
+        <select id="opcionesFiltrarPor">
+            <option value="todos">Todos</option>
+            <option value="ciudadanos">Ciudadanos</option>
+            <option value="extranjeros">Extranjeros</option>
+        </select><br>
+        <label for="calcularEdadPromedio">Calcular Edad Promedio:</label>
+        <input type="text" id="txtCalcular">
+        <input id="btnCalcular" type="button" value="Calcular">
+        <br>
+        <form>
+            <input type="checkbox" id="checkbox_Id" checked>
+            <label for="checkbox_Id">ID</label>
+
+            <input type="checkbox" id="checkbox_Nombre" checked>
+            <label for="checkbox_Nombre">Nombre</label>
+
+            <input type="checkbox" id="checkbox_Apellido" checked>
+            <label for="checkbox_Apellido">Apellido</label>
+
+            <input type="checkbox" id="checkbox_fechaNacimiento" checked>
+            <label for="checkbox_fechaNacimiento">Fecha Nacimiento</label>
+
+            <input type="checkbox" id="checkbox_Dni" checked>
+            <label for="checkbox_Dni">DNI</label>
+
+            <input type="checkbox" id="checkbox_PaisOrigen" checked>
+            <label for="checkbox_PaisOrigen">Pais de Origen</label>
+        </form>
+        <div id="grid-container">
+            <table id="tabla_formDatosId">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>DNI</th>
+                        <th>Pais Origen</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <input id="btnAgregar" type="button" value="Agregar">
+        </select>
+    </div>
+    <br>
+    <div id="contenedorFormPersonas" displa>
+        <h1 id="textoPrincipalForm">Formulario ABM</label></h1>
+        <label>Id:<input type="text" id="inpId:"></label><br>
+        <label>Nombre:<input type="text" id="inpNombre:"></label><br>
+        <label>Apellido:<input type="text" id="inpApellido:"></label><br>
+        <label>Fecha Nacimiento:<input type="text" id="inpFecNacimiento:"></label><br>
+        <label for="tipo">Tipo:</label>
+        <select id="seleccion_Tipo">
+            <option value="ciudadanos" id="valorCiudadano">Ciudadano</option>
+            <option value="extranjeros" id="valorExtranjero">Extranjero</option>
+        </select>
+        <br>
+        <div id="divLblDNI">
+            <label>DNI:<input type="text" id="inpDNI"></label>
+        </div>
+        <div id="divLblPaisOrigen">
+            <label>Pais Origen:<input type="text" id="inpPaisOrigen"></label>
+        </div>
+        <br>
+        <input id="btnCrear" type="button" value="Crear" class="btn">
+        <input id="btnModificar" type="button" value="Modificar" class="btn">
+        <input id="btnEliminar" type="button" value="Eliminar" class="btn">
+        <input id="btnCancelar" type="button" value="Cancelar" class="btn">
+    </div>
+    <script>
+        class Persona {
+            constructor(nombre, apellido, fechaNacimiento) {
+                if (nombre !== null && apellido !== null) {
+                    if (this.id == null) {
+                        this.id = 1;
+                    } else {
+                        this.id++;
+                    }
+                    this.nombre = nombre;
+                    this.apellido = apellido;
+                    if (fechaNacimiento.lenght == 8 && !isNaN(fechaNacimiento)) {
+                        const año = fechaNacimiento.slice(0, 4);
+                        const mes = fechaNacimiento.slice(4, 6);
+                        const dia = fechaNacimiento.slice(6, 8);
+                        this.fechaNacimiento = "${año}${mes}${dia}";
+                    }
+                }
+            }
+
+            toString() {
+                return "Id: ${this.id}, Nombre: ${this.nombre}, Apellido: ${this.apellido}, Fecha de Nacimiento: ${this.fechaNacimiento}";
+            }
+        }
+        class Ciudadano extends Persona {
+            constructor(nombre, apellido, fechaNacimiento, dni) {
+                super(nombre, apellido, fechaNacimiento);
+                if (dni > 0) {
+                    this.dni = dni;
+                }
+            }
+
+            toString(id, nombre, apellido, fechaNacimiento, dni) {
+                return "Ciudadano: ${super(toString)}, dni: ${this.dni}";
+            }
+        }
+        class Extranjero extends Persona {
+            constructor(nombre, apellido, fechaNacimiento, paisOrigen) {
+                super(nombre, apellido, fechaNacimiento);
+                if (paisOrigen != null) {
+                    this.paisOrigen = paisOrigen;
+                }
+            }
+
+            toString() {
+                return "Extranjero: ${super(toString)}, Pais de Origen: ${this.paisOrigen}";
+            }
+        }
+
+        const stringPersonas = '[{"id":1,"apellido":"Serrano","nombre":"Horacio","fechaNacimiento":19840103,"dni":45876942},{"id":2,"apellido":"Casas","nombre":"Julian","fechaNacimiento":19990723,"dni":98536214},{"id":3,"apellido":"Galeano","nombre":"Julieta","fechaNacimiento":20081103,"dni":74859612},{"id":4,"apellido":"Molina","nombre":"Juana","fechaNacimiento":19681201,"paisOrigen":"Paraguay"},{"id":5,"apellido":"Barrichello","nombre":"Rubens","fechaNacimiento":19720523,"paisOrigen":"Brazil"},{"id":666,"apellido":"Hkkinen","nombre":"Mika","fechaNacimiento":19680928,"paisOrigen":"Finlandia"}]'
+        const ciudadanos = [];
+        const extranjeros = [];
+        const jsonPersonas = JSON.parse(stringPersonas);
+        const objetosPersonas = jsonPersonas.map(item => {
+            if (item.hasOwnProperty("dni")) {
+                personaEmpleado = new Ciudadano(item.nombre, item.apellido, item.fechaNacimiento, item.dni);
+                ciudadanos.push(personaEmpleado);
+            }
+            else {
+                personaExtranjero = new Extranjero(item.nombre, item.apellido, item.fechaNacimiento, item.paisOrigen);
+                extranjeros.push(personaExtranjero);
+            }
+        });
+        console.log(jsonPersonas);
+        console.log(ciudadanos);
+        console.log(extranjeros);
+
+        const selectOpciones = document.getElementById("seleccion_Tipo");
+        const campoCiudadano = document.getElementById("divLblDNI");
+        const campoExtranjero = document.getElementById("divLblPaisOrigen");
+        function mostrarOcultarCampoTexto() {
+            if (selectOpciones.value === "ciudadanos") {
+                campoCiudadano.style.display = 'block';
+                campoExtranjero.style.display = 'none';
+            }
+            else {
+                campoCiudadano.style.display = 'none';
+                campoExtranjero.style.display = 'block';
+            }
+        }
+        selectOpciones.addEventListener('change', mostrarOcultarCampoTexto);
+
+        mostrarOcultarCampoTexto();
+
+        function cargarTabla(objeto) {
+            var tabla = document.getElementById("tabla_formDatosId").getElementsByTagName('tbody')[0];
+            tabla.innerHTML = '';
+            objeto.forEach(function (item) {
+                var fila = tabla.insertRow();
+                ["id", "nombre", "apellido", "fechaNacimiento", "dni", "paisOrigen"].forEach(function (prop) {
+                    var celda = fila.insertCell();
+                    if (item.hasOwnProperty(prop)) {
+                        celda.textContent = item[prop];
+                    } else {
+                        celda.textContent = "N/A";
+                    }
+                });
+            });
+        }
+
+        cargarTabla(jsonPersonas);
+
+        document.getElementById('seleccion_Tipo').addEventListener('change', function () {
+            const valorSeleccionado = this.value; 
+            const filasTabla = document.querySelectorAll('#tabla_formDatosId tbody tr'); 
+            filasTabla.forEach(fila => {
+                const dni = fila.querySelector('td');
+                if (valorSeleccionado === 'todos' || valorSeleccionado === "N/A") {
+                    fila.style.display = 'table-row'; 
+                } else {
+                    fila.style.display = 'none'; 
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
